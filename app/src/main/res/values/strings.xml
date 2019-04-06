@@ -4,4 +4,6 @@
     <string name="description">Description</string>
     <string name="yoshi">Beeg Yoshi</string>
     <string name="insert">Insert</string>
+    <string name="title_activity_detail_list">DetailListActivity</string>
+    <string name="total">TOTAL:</string>
 </resources>

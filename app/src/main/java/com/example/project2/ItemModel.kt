@@ -22,6 +22,16 @@ class ItemModel {
         return true
     }
 
+    fun getTotal() : Double {
+        var totals = 0.0
+
+        for( value in items ){
+            totals += value.price
+        }
+
+        return totals
+    }
+
 }
 
 //var id : Int = 0

@@ -59,6 +59,8 @@ import android.widget.Toast
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_detail_list.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.add_item.*
 
@@ -78,9 +80,14 @@ class MainActivity : AppCompatActivity() {
 
 
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = itemAdapter(itemList)
+        recyclerView.adapter = ItemAdapter(itemList)
         setRecyclerViewItemTouchListener()
 
+//        fab.setOnClickListener { view ->
+//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                .setAction("Action", null).show()
+//        }
+        totalView.text = itemList.getTotal().toString()
     }
 
     private fun setRecyclerViewItemTouchListener() {
@@ -95,8 +102,9 @@ class MainActivity : AppCompatActivity() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
                 //3
                 val position = viewHolder.adapterPosition
-                itemList.items.removeAt(position)
+                itemList.removeItem(position)
                 recyclerView.adapter!!.notifyItemRemoved(position)
+                totalView.text = itemList.getTotal().toString()
             }
         }
 

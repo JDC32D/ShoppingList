@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.list_item.view.*
 
 //class itemAdapter(val items: ArrayList<String>) : RecyclerView.Adapter<itemAdapter.ViewHolder>() {
@@ -29,23 +30,24 @@ import kotlinx.android.synthetic.main.list_item.view.*
 //}
 
 //class itemAdapter(val items: ArrayList<ItemModel>) : RecyclerView.Adapter<itemAdapter.ViewHolder>() {
-class itemAdapter(itemList: ItemModel) : RecyclerView.Adapter<itemAdapter.ItemHolder>() {
+class ItemAdapter(itemList: ItemModel) : RecyclerView.Adapter<ItemAdapter.ItemHolder>() {
 
     var items = itemList.items
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): itemAdapter.ItemHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemAdapter.ItemHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent,false)
         return ItemHolder(view)
     }
 
     // For every row, we will give you a position
-    override fun onBindViewHolder(holder: itemAdapter.ItemHolder, position: Int) {
+    override fun onBindViewHolder(holder: ItemAdapter.ItemHolder, position: Int) {
         val currItem = items[position]
         holder.bindItem(currItem)
     }
 
 
     override fun getItemCount() = items.size
+
 
     //1
     class ItemHolder(v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {
