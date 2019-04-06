@@ -25,8 +25,8 @@ class ItemModel {
     fun getTotal() : Double {
         var totals = 0.0
 
-        for( value in items ){
-            totals += value.price
+        for( item in items ){
+            totals += (item.price * item.quantity)
         }
 
         return totals

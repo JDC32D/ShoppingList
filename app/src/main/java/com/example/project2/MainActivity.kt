@@ -68,7 +68,6 @@ class MainActivity : AppCompatActivity() {
 
     var itemList = ItemModel()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -76,6 +75,15 @@ class MainActivity : AppCompatActivity() {
         // Set up dummy values to test recycler view
         itemList.addItem(0, "Peaches", 1, 1.50)
         itemList.addItem(1, "Apples", 5, 2.00)
+        itemList.addItem(0, "Peaches", 1, 1.50)
+        itemList.addItem(1, "Apples", 5, 2.00)
+        itemList.addItem(2, "Oranges", 7, 8.00)
+        itemList.addItem(2, "Oranges", 7, 8.00)
+        itemList.addItem(0, "Peaches", 1, 1.50)
+        itemList.addItem(1, "Apples", 5, 2.00)
+        itemList.addItem(0, "Peaches", 1, 1.50)
+        itemList.addItem(1, "Apples", 5, 2.00)
+        itemList.addItem(2, "Oranges", 7, 8.00)
         itemList.addItem(2, "Oranges", 7, 8.00)
 
 
@@ -87,6 +95,7 @@ class MainActivity : AppCompatActivity() {
 //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                .setAction("Action", null).show()
 //        }
+
         totalView.text = itemList.getTotal().toString()
     }
 

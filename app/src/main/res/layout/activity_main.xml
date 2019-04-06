@@ -32,7 +32,7 @@
         android:id="@+id/totalView"
         android:text="@string/total"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+    />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
