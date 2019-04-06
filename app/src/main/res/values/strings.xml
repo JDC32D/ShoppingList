@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Project 2</string>
+    <string name="heading">Heading</string>
+    <string name="description">Description</string>
+    <string name="yoshi">Beeg Yoshi</string>
+    <string name="insert">Insert</string>
+</resources>
