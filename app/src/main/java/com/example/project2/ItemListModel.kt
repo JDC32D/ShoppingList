@@ -1,10 +1,21 @@
 package com.example.project2
 
 import android.util.Log
+import java.io.Serializable
 
-class ItemModel {
+class ItemListModel : Serializable {
+
+    private var name: String
+
+    constructor (name: String) {
+        this.name = name
+    }
 
     var items: ArrayList<Item> = ArrayList()
+
+    fun getName() : String {
+        return name
+    }
 
     fun addItem(index: Int, name: String, quantity: Int, price: Double){
         items.add(index, Item(name, quantity, price))

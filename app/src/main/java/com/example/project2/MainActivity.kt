@@ -55,48 +55,49 @@ package com.example.project2
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_detail_list.*
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.add_item.*
 
 class MainActivity : AppCompatActivity() {
 
-    var itemList = ItemModel()
+    var groceryLists = GroceryListModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         // Set up dummy values to test recycler view
-        itemList.addItem(0, "Peaches", 1, 1.50)
-        itemList.addItem(1, "Apples", 5, 2.00)
-        itemList.addItem(0, "Peaches", 1, 1.50)
-        itemList.addItem(1, "Apples", 5, 2.00)
-        itemList.addItem(2, "Oranges", 7, 8.00)
-        itemList.addItem(2, "Oranges", 7, 8.00)
-        itemList.addItem(0, "Peaches", 1, 1.50)
-        itemList.addItem(1, "Apples", 5, 2.00)
-        itemList.addItem(0, "Peaches", 1, 1.50)
-        itemList.addItem(1, "Apples", 5, 2.00)
-        itemList.addItem(2, "Oranges", 7, 8.00)
-        itemList.addItem(2, "Oranges", 7, 8.00)
+        groceryLists.addList("Dierbergs")
+        groceryLists.addList("Schnucks")
+        groceryLists.addList("Lucky's Market")
+        groceryLists.addList("Trader Joe's")
+
+        groceryLists.addItemToList(0,0, "Peaches", 1, 1.50)
+        groceryLists.addItemToList(0,1, "Apples", 5, 2.00)
+        groceryLists.addItemToList(0,2,"Oranges", 7, 8.00)
+
+        groceryLists.addItemToList(1,0, "Peaches", 1, 1.50)
+        groceryLists.addItemToList(1,1, "Apples", 5, 2.00)
+        groceryLists.addItemToList(1,2,"Oranges", 7, 8.00)
+
+        groceryLists.addItemToList(2,0, "Peaches", 1, 1.50)
+        groceryLists.addItemToList(2,1, "Apples", 5, 2.00)
+        groceryLists.addItemToList(2,2,"Oranges", 7, 8.00)
 
 
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = ItemAdapter(itemList)
+        recyclerView.adapter = ListAdapter(groceryLists)
         setRecyclerViewItemTouchListener()
 
-//        fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
-//        }
+        fab.setOnClickListener { view ->
+            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
+        }
 
-        totalView.text = itemList.getTotal().toString()
+        //totalView.text = itemList.getTotal().toString()
     }
 
     private fun setRecyclerViewItemTouchListener() {
@@ -111,9 +112,9 @@ class MainActivity : AppCompatActivity() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
                 //3
                 val position = viewHolder.adapterPosition
-                itemList.removeItem(position)
+                groceryLists.removeList(position)
                 recyclerView.adapter!!.notifyItemRemoved(position)
-                totalView.text = itemList.getTotal().toString()
+                //totalView.text = itemList.getTotal().toString()
             }
         }
 
