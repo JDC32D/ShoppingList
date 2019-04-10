@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.list_item.view.*
 
-class ListAdapter(GroceryList: GroceryListModel) : RecyclerView.Adapter<ListAdapter.ItemHolder>() {
+class ListAdapter(GroceryList: List<ShoppingList>) : RecyclerView.Adapter<ListAdapter.ItemHolder>() {
 
-    var lists = GroceryList.getLists()
+   var lists = GroceryList
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListAdapter.ItemHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent,false)
@@ -28,7 +28,7 @@ class ListAdapter(GroceryList: GroceryListModel) : RecyclerView.Adapter<ListAdap
     class ItemHolder(v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {
 
         private var view: View = v
-        private var list: ItemListModel ?= null
+        private var list: ShoppingList ?= null
 
         init {
             v.setOnClickListener(this)
@@ -36,15 +36,15 @@ class ListAdapter(GroceryList: GroceryListModel) : RecyclerView.Adapter<ListAdap
 
         override fun onClick(v: View) {
             Log.d("RecyclerView", "CLICK!")
-            val context = itemView.context
-            val showListIntent = Intent(context, DetailListActivity::class.java)
-            showListIntent.putExtra(LIST_KEY, list)
-            context.startActivity(showListIntent)
+//            val context = itemView.context
+//            val showListIntent = Intent(context, DetailListActivity::class.java)
+//            showListIntent.putExtra(LIST_KEY, list)
+//            context.startActivity(showListIntent)
         }
 
-        fun bindItem(list: ItemListModel) {
+        fun bindItem(list: ShoppingList) {
             this.list = list
-            view.textViewHead.text = list.getName()
+            view.textViewHead.text = list.name
         }
 
         companion object {

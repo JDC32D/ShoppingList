@@ -58,38 +58,46 @@ import android.os.Bundle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.project2.SQLattempt2.DatabaseHelper
+import com.example.project2.SQLattempt2.ListsPersistence
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.db.*
 
 class MainActivity : AppCompatActivity() {
 
-    var groceryLists = GroceryListModel()
+    //var groceryLists = GroceryListModel()
+    private lateinit var model: ShoppingList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Set up dummy values to test recycler view
-        groceryLists.addList("Dierbergs")
-        groceryLists.addList("Schnucks")
-        groceryLists.addList("Lucky's Market")
-        groceryLists.addList("Trader Joe's")
+        //Create database
+        val db = DatabaseHelper(applicationContext)
+        val persistence = ListsPersistence(db)
 
-        groceryLists.addItemToList(0,0, "Peaches", 1, 1.50)
-        groceryLists.addItemToList(0,1, "Apples", 5, 2.00)
-        groceryLists.addItemToList(0,2,"Oranges", 7, 8.00)
+        /*
+         db?.createTable(ShoppingListSchema.TABLE_NAME, true,
+            ShoppingListSchema.Cols.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
+            ShoppingListSchema.Cols.ITEM to TEXT,
+            ShoppingListSchema.Cols.COUNT to INTEGER,
+            ShoppingListSchema.Cols.PRICE to INTEGER,
+            ShoppingListSchema.Cols.STORE to TEXT
+        )
+         */
 
-        groceryLists.addItemToList(1,0, "Peaches", 1, 1.50)
-        groceryLists.addItemToList(1,1, "Apples", 5, 2.00)
-        groceryLists.addItemToList(1,2,"Oranges", 7, 8.00)
+//        db.use {
+//            createTable("ShoppingList", true,
+//                "Id" to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
+//                "Name" to TEXT)
+//        }
 
-        groceryLists.addItemToList(2,0, "Peaches", 1, 1.50)
-        groceryLists.addItemToList(2,1, "Apples", 5, 2.00)
-        groceryLists.addItemToList(2,2,"Oranges", 7, 8.00)
+        persistence.createShoppingList("Luckys")
 
 
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = ListAdapter(groceryLists)
+        recyclerView.adapter = ListAdapter(persistence.getShoppingLists())
         setRecyclerViewItemTouchListener()
 
         fab.setOnClickListener { view ->
@@ -111,9 +119,9 @@ class MainActivity : AppCompatActivity() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
                 //3
-                val position = viewHolder.adapterPosition
-                groceryLists.removeList(position)
-                recyclerView.adapter!!.notifyItemRemoved(position)
+               // val position = viewHolder.adapterPosition
+                //groceryLists.removeList(position)
+                //recyclerView.adapter!!.notifyItemRemoved(position)
                 //totalView.text = itemList.getTotal().toString()
             }
         }
@@ -143,3 +151,21 @@ class MainActivity : AppCompatActivity() {
 //        for (i in 1..10) {
 //            items.add("Item #$i")
 //        }
+
+// Set up dummy values to test recycler view
+//        groceryLists.addList("Dierbergs")
+//        groceryLists.addList("Schnucks")
+//        groceryLists.addList("Lucky's Market")
+//        groceryLists.addList("Trader Joe's")
+//
+//        groceryLists.addItemToList(0,0, "Peaches", 1, 1.50)
+//        groceryLists.addItemToList(0,1, "Apples", 5, 2.00)
+//        groceryLists.addItemToList(0,2,"Oranges", 7, 8.00)
+//
+//        groceryLists.addItemToList(1,0, "Peaches", 1, 1.50)
+//        groceryLists.addItemToList(1,1, "Apples", 5, 2.00)
+//        groceryLists.addItemToList(1,2,"Oranges", 7, 8.00)
+//
+//        groceryLists.addItemToList(2,0, "Peaches", 1, 1.50)
+//        groceryLists.addItemToList(2,1, "Apples", 5, 2.00)
+//        groceryLists.addItemToList(2,2,"Oranges", 7, 8.00)
