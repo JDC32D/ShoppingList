@@ -55,6 +55,8 @@ package com.example.project2
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.core.content.res.TypedArrayUtils.getText
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -62,6 +64,7 @@ import com.example.project2.SQLattempt2.DatabaseHelper
 import com.example.project2.SQLattempt2.ListsPersistence
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.activityManager
 import org.jetbrains.anko.db.*
 
 class MainActivity : AppCompatActivity() {
@@ -77,61 +80,46 @@ class MainActivity : AppCompatActivity() {
         val db = DatabaseHelper(applicationContext)
         val persistence = ListsPersistence(db)
 
-        /*
-         db?.createTable(ShoppingListSchema.TABLE_NAME, true,
-            ShoppingListSchema.Cols.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
-            ShoppingListSchema.Cols.ITEM to TEXT,
-            ShoppingListSchema.Cols.COUNT to INTEGER,
-            ShoppingListSchema.Cols.PRICE to INTEGER,
-            ShoppingListSchema.Cols.STORE to TEXT
-        )
-         */
-
-//        db.use {
-//            createTable("ShoppingList", true,
-//                "Id" to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
-//                "Name" to TEXT)
-//        }
-
         persistence.createShoppingList("Luckys")
-
-
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = ListAdapter(persistence.getShoppingLists())
-        setRecyclerViewItemTouchListener()
+        setRecyclerViewItemTouchListener(persistence)
+
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
 
+
         //totalView.text = itemList.getTotal().toString()
+
     }
 
-    private fun setRecyclerViewItemTouchListener() {
+    private fun setRecyclerViewItemTouchListener(persistence: ListsPersistence) {
 
-        //1
-        val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
-            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, viewHolder1: RecyclerView.ViewHolder): Boolean {
-                //2
+        val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(0,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+
+            override fun onMove(recyclerView: RecyclerView,
+                                viewHolder: RecyclerView.ViewHolder, viewHolder1: RecyclerView.ViewHolder): Boolean {
                 return false
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
-                //3
-               // val position = viewHolder.adapterPosition
-                //groceryLists.removeList(position)
-                //recyclerView.adapter!!.notifyItemRemoved(position)
-                //totalView.text = itemList.getTotal().toString()
+                val position = viewHolder.adapterPosition
+                val lists = persistence.getShoppingLists()
+                val name = lists[position].name
+                Log.e("Listener", "Deleting $name's list")
+                persistence.deleteShoppingList(name!!)
+                recyclerView.adapter = ListAdapter(persistence.getShoppingLists())
+                recyclerView.adapter!!.notifyItemRemoved(position)
             }
-        }
 
-        //4
+        }
         val itemTouchHelper = ItemTouchHelper(itemTouchCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
-
-
 }
 
 //        val context = this
@@ -169,3 +157,19 @@ class MainActivity : AppCompatActivity() {
 //        groceryLists.addItemToList(2,0, "Peaches", 1, 1.50)
 //        groceryLists.addItemToList(2,1, "Apples", 5, 2.00)
 //        groceryLists.addItemToList(2,2,"Oranges", 7, 8.00)
+
+/*
+ db?.createTable(ShoppingListSchema.TABLE_NAME, true,
+    ShoppingListSchema.Cols.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
+    ShoppingListSchema.Cols.ITEM to TEXT,
+    ShoppingListSchema.Cols.COUNT to INTEGER,
+    ShoppingListSchema.Cols.PRICE to INTEGER,
+    ShoppingListSchema.Cols.STORE to TEXT
+)
+ */
+
+//        db.use {
+//            createTable("ShoppingList", true,
+//                "Id" to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
+//                "Name" to TEXT)
+//        }

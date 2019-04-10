@@ -4,6 +4,7 @@ import android.database.sqlite.SQLiteConstraintException
 import com.example.project2.ShoppingList
 import kotlinx.coroutines.selects.select
 import org.jetbrains.anko.db.MapRowParser
+import org.jetbrains.anko.db.delete
 import org.jetbrains.anko.db.insertOrThrow
 import org.jetbrains.anko.db.select
 
@@ -21,6 +22,12 @@ class ListsPersistence(private val db: DatabaseHelper) {
                         return ShoppingList(id.toInt(), name)
                     }
                 })
+        }
+    }
+
+    fun deleteShoppingList(listName: String) {
+        db.use {
+            delete(ShoppingListSchema.TABLE_NAME, "${ShoppingListSchema.Cols.NAME} = ?", arrayOf(listName))
         }
     }
 

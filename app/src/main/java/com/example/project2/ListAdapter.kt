@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.list_item.view.*
 
 class ListAdapter(GroceryList: List<ShoppingList>) : RecyclerView.Adapter<ListAdapter.ItemHolder>() {
 
-   var lists = GroceryList
+    var lists = GroceryList
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListAdapter.ItemHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent,false)
@@ -21,6 +21,10 @@ class ListAdapter(GroceryList: List<ShoppingList>) : RecyclerView.Adapter<ListAd
     override fun onBindViewHolder(holder: ListAdapter.ItemHolder, position: Int) {
         val currItem = lists[position]
         holder.bindItem(currItem)
+    }
+
+    fun getNewList(GroceryList: List<ShoppingList>) {
+        lists = GroceryList
     }
 
     override fun getItemCount() = lists.size
